@@ -1,5 +1,6 @@
 package com.example.sour;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -41,6 +42,18 @@ public class DbHelper extends SQLiteOpenHelper {
         }
 
     }
+    @SuppressLint("Range")
+    public boolean Login(String email, String password){
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor c = db.rawQuery("select * from Users where email = ? AND password = ?", new String[]{email, password});
+            return c.getCount() != 0;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     public void DeleteAll(){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(USERS,null,null);
@@ -54,21 +67,5 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(USERS,null,cv);
         sqLiteDatabase.close();
     }
-    public LinkedList GetAll(){
-        List<Object> linkedList = new List<>();
-        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
 
-        Cursor cursor = sqLiteDatabase.query(USERS,null,null,null,null,null,null);
-        if (cursor.moveToFirst()) {
-            do{
-                int id_id = cursor.getColumnIndex(ID);
-                int id_email = cursor.getColumnIndex(EMAIL);
-                int id_passwd = cursor.getColumnIndex(PASSWORD);
-            linkedList.add(cursor.getInt(id_id),cursor.getString(id_email),cursor.getString(id_passwd));
-
-            }while(cursor.moveToNext());
-            sqLiteDatabase.close();
-        }
-        return linkedList;
-    }
 }
