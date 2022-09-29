@@ -29,5 +29,12 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(switcher);
             }
         });
+        findViewById(R.id.imageViewHand).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent switcher = new Intent(MainActivity.this, AdminActivity.class);
+                MainActivity.this.startActivity(switcher);
+            }
+        });
     }
 }

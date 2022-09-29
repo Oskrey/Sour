@@ -3,6 +3,7 @@ package com.example.sour;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -67,5 +68,65 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(USERS,null,cv);
         sqLiteDatabase.close();
     }
+    public LinkedList<Data> GetAll(){
+        LinkedList<Data> list = new LinkedList<>();
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.query(USERS,null,null,null,null,null,null,null);
+
+        if (cursor.moveToFirst())
+            do {
+                int id = cursor.getColumnIndex(ID);
+                int mail = cursor.getColumnIndex(EMAIL);
+                int passwd = cursor.getColumnIndex(PASSWORD);
+
+                Data data = new Data(cursor.getInt(id),cursor.getString(mail),cursor.getString(passwd));
+                list.add(data);
+            }while (cursor.moveToNext());
+            sqLiteDatabase.close();
+            return list;
+    }
+    public void UpdateOne(String id, String mail, String passwd){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(ID, id);
+        cv.put(EMAIL, mail);
+        cv.put(PASSWORD, passwd);
+        db.update(USERS, cv,ID+"= ?", new String[]{id});
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void Update(String id, String email, String passwd){
+
+    }
+
 
 }

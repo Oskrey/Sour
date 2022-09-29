@@ -23,16 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.buttonLog).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DbHelper db =new DbHelper(RegisterActivity.this);
 
-                EditText email = findViewById(R.id.editTextTextEmailAddress);
-                EditText passwd = findViewById(R.id.editTextTextPassword);
-
-            }
-        });
         findViewById(R.id.buttonLog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,13 +31,16 @@ public class RegisterActivity extends AppCompatActivity {
 
                 EditText email = findViewById(R.id.editTextTextEmailAddress);
                 EditText passwd = findViewById(R.id.editTextTextPassword);
-
-                if (email.getText().toString().isEmpty()) {
+                db.GetAll().isEmpty();
+                if (!email.getText().toString().isEmpty()) {
                     db.Add(email.getText().toString(),passwd.getText().toString());
                     Toast.makeText(getApplicationContext(), "Запись успешно добавлена",Toast.LENGTH_SHORT).show();
                 }
+                else if (db.GetAll().isEmpty()){
+
+                }
                 else {
-                    Toast.makeText(getApplicationContext(), "Пользователь существует!\nНо только вот что значит существование?!😂",
+                    Toast.makeText(getApplicationContext(), "Ошибка",
                             Toast.LENGTH_SHORT).show();
 
                 }
