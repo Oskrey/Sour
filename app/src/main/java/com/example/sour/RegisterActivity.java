@@ -2,7 +2,6 @@ package com.example.sour;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
                 EditText passwd = findViewById(R.id.editTextTextPassword);
                 db.GetAll().isEmpty();
                 if (!email.getText().toString().isEmpty()) {
-                    db.Add(email.getText().toString(),passwd.getText().toString());
+                    db.Register(email.getText().toString(),passwd.getText().toString());
                     Toast.makeText(getApplicationContext(), "Запись успешно добавлена",Toast.LENGTH_SHORT).show();
                 }
                 else if (db.GetAll().isEmpty()){

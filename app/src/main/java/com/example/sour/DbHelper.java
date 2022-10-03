@@ -55,12 +55,7 @@ public class DbHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public void DeleteAll(){
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete(USERS,null,null);
-        sqLiteDatabase.close();
-    }
-    public void Add(String email, String passwd){
+    public void Register(String email, String passwd){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(EMAIL,email);
@@ -68,6 +63,12 @@ public class DbHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(USERS,null,cv);
         sqLiteDatabase.close();
     }
+    public void DeleteOne(String Id){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(USERS,ID+"= ?",new String[]{Id});
+        sqLiteDatabase.close();
+    }
+
     public LinkedList<Data> GetAll(){
         LinkedList<Data> list = new LinkedList<>();
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
@@ -85,6 +86,24 @@ public class DbHelper extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
             sqLiteDatabase.close();
             return list;
+    }
+    public LinkedList<Data> GetOne(String Id){
+        LinkedList<Data> list = new LinkedList<>();
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery("select * from "+USERS+" where "+ID+" = ?", new String[] { Id });
+
+        if (cursor.moveToFirst())
+            do {
+                int id = cursor.getColumnIndex(ID);
+                int mail = cursor.getColumnIndex(EMAIL);
+                int passwd = cursor.getColumnIndex(PASSWORD);
+
+                Data data = new Data(cursor.getInt(id),cursor.getString(mail),cursor.getString(passwd));
+                list.add(data);
+            }while (cursor.moveToNext());
+        sqLiteDatabase.close();
+        return list;
     }
     public void UpdateOne(String id, String mail, String passwd){
         SQLiteDatabase db = getWritableDatabase();
