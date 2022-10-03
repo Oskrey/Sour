@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.util.LinkedList;
+
 public class ActivityLogIn extends AppCompatActivity {
 
     @Override
@@ -32,13 +34,21 @@ public class ActivityLogIn extends AppCompatActivity {
 
                 String login = ((EditText) findViewById(R.id.editTextTextEmailAddress)).getText().toString();
                 String password = ((EditText) findViewById(R.id.editTextTextPassword)).getText().toString();
-                if (login.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "поля пустые",
+
+
+                if (login.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Введите логин",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if (db.Login(login, password)) {
-                    Toast.makeText(getApplicationContext(), "Олег крутой",
+                    if(login.equals("admin") || password.equals("admin") ){
+                        Intent switcher = new Intent(ActivityLogIn.this, AdminActivity.class);
+                        ActivityLogIn.this.startActivity(switcher);
+                    }
+                    else
+                    Toast.makeText(getApplicationContext(), "Есть такой!",
                             Toast.LENGTH_SHORT).show();// переход в новое окно с приветствием
                 } else {
                     Toast.makeText(getApplicationContext(), "данные некорректны",

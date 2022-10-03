@@ -55,6 +55,17 @@ public class DbHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public boolean regHelper(String email){
+        try {
+            SQLiteDatabase db = getReadableDatabase();
+            Cursor c = db.rawQuery("select * from Users where email = ?", new String[]{email});
+            return c.getCount() != 0;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     public void Register(String email, String passwd){
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         ContentValues cv = new ContentValues();
@@ -66,6 +77,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public void DeleteOne(String Id){
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.delete(USERS,ID+"= ?",new String[]{Id});
+        sqLiteDatabase.close();
+    }
+    public void DeleteAll(){
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+        sqLiteDatabase.delete(USERS,null,null);
+        sqLiteDatabase.execSQL("DELETE FROM SQLITE_SEQUENCE WHERE NAME = '" + USERS + "'");
         sqLiteDatabase.close();
     }
 

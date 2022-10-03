@@ -31,15 +31,16 @@ public class RegisterActivity extends AppCompatActivity {
                 EditText email = findViewById(R.id.editTextTextEmailAddress);
                 EditText passwd = findViewById(R.id.editTextTextPassword);
                 db.GetAll().isEmpty();
-                if (!email.getText().toString().isEmpty()) {
+                if (email.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Введите данные",Toast.LENGTH_SHORT).show();
+                }
+                else if (!db.regHelper(email.getText().toString()))
+                {
                     db.Register(email.getText().toString(),passwd.getText().toString());
                     Toast.makeText(getApplicationContext(), "Запись успешно добавлена",Toast.LENGTH_SHORT).show();
                 }
-                else if (db.GetAll().isEmpty()){
-
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Ошибка",
+                else if (db.regHelper(email.getText().toString())){
+                    Toast.makeText(getApplicationContext(), "Ошибка, пользователь существует",
                             Toast.LENGTH_SHORT).show();
 
                 }

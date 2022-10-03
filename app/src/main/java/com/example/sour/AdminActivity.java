@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
@@ -35,6 +36,16 @@ public class AdminActivity extends AppCompatActivity {
                 db.DeleteOne(Id);
             }
         });
+        findViewById(R.id.buttonDeleteAll).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DbHelper db = new DbHelper(AdminActivity.this);
+                EditText id=findViewById(R.id.editTextKey);
+                String Id = id.getText().toString();
+                db.DeleteAll();
+            }
+        });
+
         findViewById(R.id.buttonSelect).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,11 +53,18 @@ public class AdminActivity extends AppCompatActivity {
                 String Id = id.getText().toString();
 
                 DbHelper db = new DbHelper(AdminActivity.this);
-                List list =  db.GetOne(Id);
+
+                LinkedList<Data> list =  db.GetOne(Id);
                 EditText mail = findViewById(R.id.editTextValue);
-                mail.setText(list.get(1).toString());
                 EditText passwd=findViewById(R.id.editTextValue2);
-                passwd.setText(list.get(2).toString());
+                String email = "";
+                for (Data d:list) email = d.email;
+                mail.setText(email);
+                String password = "";
+
+                for (Data d:list) password = d.passwd;
+
+                passwd.setText(password);
 
 
             }
