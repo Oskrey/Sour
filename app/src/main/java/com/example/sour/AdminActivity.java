@@ -1,8 +1,10 @@
 package com.example.sour;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -40,8 +42,6 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DbHelper db = new DbHelper(AdminActivity.this);
-                EditText id=findViewById(R.id.editTextKey);
-                String Id = id.getText().toString();
                 db.DeleteAll();
             }
         });
@@ -65,7 +65,7 @@ public class AdminActivity extends AppCompatActivity {
                 for (Data d:list) password = d.passwd;
 
                 passwd.setText(password);
-
+                ;
 
             }
         });
